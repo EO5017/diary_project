@@ -4,45 +4,60 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Diary</title>
+    <title>Diary {{ page_title }}</title>
     <meta name="viewport" content="width = device-width, initial-scale = 1, shrink-to-fit = no">
     <meta http-equiv="x-ua-compatible" content="ie = edge">
 
-    <link href = "{% static 'css/mdb.min.css' %}" rel = "stylesheet">
-    <head>
+    <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}" />
+</head>
 
-    <body>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h1>Diary</h1>
+        <body>
+            {% include 'block/header.html' %}
+            <div class="container">
+                <!-- Jumbotron -->
+                <div class="row p-5">
+                    <div class="col-12 text-center" style="margin-top: 3rem">
+                        <h1 class="">{{ page_title }}</h1>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    {% if diary_list %}
-                    <table class="table">
-                        {% for diary in diary_list %}
-                        <tr>
-                            <td><a href="">{{ diary.title }}</a></td>
-                            <td><a href="">Edit</a></td>
-                            <td><a href="">Delete</a></td>
-                        </tr>
-                        {% endfor %}
-                    </table>
+                <!-- Jumbotron -->
 
-                    {% else %}
-                    <p>No diary available.</p>
+                <div class="row my-3">
+                    <div class="col-12 text-center">
+                        <a href="{% url 'create' %}" class="btn btn-primary">新規作成</a>
+                    </div>
+                </div>
+
+                <div class="row my-3">
+                    {% for diary in diary_list %}
+                    <!-- 4で割り切れる場合 -->
+                    {% if forloop.counter|divisibleby:4 %}
+                    </div>
+                    <div class="row my-3">
                     {% endif %}
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-header text-end">
+                                {{ diary.write_date }}
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ diary.title }}</h5>
+                                <p class="card-text">{{ diary.content | truncatechars:50 }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="{% url 'read' diary.id %}" class="btn btn-primary">詳細</a>
+                                <a href="{% url 'edit' diary.id %}" class="btn btn-success">編集</a>
+                                <a class="btn btn-danger">削除</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
-            </div>
-            <div="row">
-                <div="col-md-8">
-                </div>
-            </div>
-        </div>
 
-        <script type = "text/javascript" src = "{% static 'js/mdb.umd.min.js' %}"></script>
+            </div>
+            
+
+        <script type="text/javascript" src="{% static 'js/mdb.umd.min.js' %}"></script>
     </body>
 
 </html>

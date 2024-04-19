@@ -21,6 +21,11 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("create", views.create, name="create"),
+    path("post", views.post, name="post"),
+    path("read/<int:diary_id>", views.read, name="read"),
+    path("edit/<int:diary_id>", views.edit, name="edit"),
+    path("delete/<int:diary_id>", views.delete, name="delete"),
 
     # 基本使わない
     path("add/", add.as_view(), name="add"),

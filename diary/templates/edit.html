@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+    <meta charset="utf-8">
+    <title>Diary {{ page_title }}</title>
+    <meta name="viewport" content="width = device-width, initial-scale = 1, shrink-to-fit = no">
+    <meta http-equiv="x-ua-compatible" content="ie = edge">
+
+    <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}" />
+</head>
+
+    <body>
+        {% include 'block/header.html' %}
+        <div class="container">
+            <!-- Jumbotron -->
+            <div class="row p-5">
+                <div class="col-12 text-center" style="margin-top: 3rem">
+                    <h1 class="">{{page_title}}</h1>
+                </div>
+            </div>
+            <!-- Jumbotron -->
+            <form method="post" action="{% url 'post' %}">
+                {% csrf_token %}
+                <div class="row my-3">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="title">タイトル</label>
+                            <input type="text" name="title" class="form-control" value="{{ diary.title }}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="content">本文</label>
+                            <textarea name="content" class="form-control" rows="10">{{ diary.content }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-6">
+                        <a href="{% url 'index' %}" class="btn btn-secondary">戻る</a>
+                    </div>
+                    <div class="col-6 text-end">
+                        <input type="hidden" name="diary_id" value="{{ diary.id }}" />
+                        {% if diary.id == None %}
+                        <!-- 新規作成なら -->
+                        <input type="submit" value="新規作成" class="btn btn-primary" />
+                        {% else %}
+                        <!-- 更新なら -->
+                        <input type="submit" value="更新" class="btn btn-success" />
+                        {% endif %}
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <script type="text/javascript" src="{% static 'js/mdb.umd.min.js' %}"></script>
+    </body>
+
+</html>
