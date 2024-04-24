@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <meta name="viewport" content="width = device-width, initial-scale = 1, shrink-to-fit = no">
+    <meta http-equiv="x-ua-compatible" content="ie = edge">
+
+    <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}" />
+
+</head>
+
+<body>
+    <div class="container">
+        {% include 'block/top.html' %}
+
+        <div class="row">
+            <div class="col-12 text-center"> 
+                <!-- メッセージ表示 -->
+                {% if messages %}
+                {% for message in messages %}
+                    <p class="text-danger"> {{ message }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-xl-5 col-md-8">
+                <form method="POST" action="{% url 'create_user' %}" class="bg-white rounded shadow-5-strong p-5">
+                    {% csrf_token %}
+                    <!-- Name -->
+                    <div class="form-outline mb-4" data-mdb-input-init>
+                        <input type="text" id="name" name="name" class="form-control" />
+                        <label class="form-label" for="name">Name</label>
+                    </div>
+
+                    <!-- Email input -->
+                    <div class="form-outline mb-4" data-mdb-input-init>
+                        <input type="email" id="mail_address" name="mail_address" class="form-control" />
+                        <label class="form-label" for="mail">Email address</label>
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-4" data-mdb-input-init>
+                        <input type="password" id="password" name="password" class="form-control" />
+                        <label class="form-label" for="password">Password</label>
+                    </div>
+
+
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-primary btn-block" data-mdb-ripple-init>Sign Up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="{% static 'js/mdb.umd.min.js' %}"></script>
+</body>
+
+</html>
