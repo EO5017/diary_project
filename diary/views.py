@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.views.generic import TemplateView
-from .models import Diary, User
+from .models import Diary
 from utils import datetime_utils
 
 # Create your views here.
@@ -88,7 +88,6 @@ def post(request):
 
     diary.title = request.POST.get("title")
     diary.content = request.POST.get("content")
-    # diary.user_id = User.objects.get(id=1)
     diary.user_id = 1
     diary.save()
 
