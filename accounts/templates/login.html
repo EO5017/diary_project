@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="jp">
+
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <meta name="viewport" content="width = device-width, initial-scale = 1, shrink-to-fit = no">
+    <meta http-equiv="x-ua-compatible" content="ie = edge">
+
+    <link rel="stylesheet" href="{% static 'css/mdb.min.css' %}" />
+
+</head>
+
+<body>
+    <div class="container">
+        {% include 'block/top.html' %}
+
+        <div class="row justify-content-center">
+            <div class="col-12 text-center">
+                <!-- メッセージ表示 -->
+                {% if messages %}
+                {% for message in messages %}
+                {% if message.tags == 'error' %}
+                <div data-mdb-alert-init="" class="alert alert-danger" role="alert" data-mdb-color="danger"
+                    data-mdb-alert-initialized="true">
+                    {{ message }}
+                </div>
+                {% else %}
+                <div data-mdb-alert-init="" class="alert alert-success" role="alert" data-mdb-color="success"
+                    data-mdb-alert-initialized="true">
+                    {{ message }}
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+
+        <div class="row justify-content-center">
+            <div class="col-xl-5 col-md-8">
+                <form method="POST" action="{% url 'login_check' %}" class="bg-white rounded shadow-5-strong p-5">
+                    {% csrf_token %}
+                    <!-- Email input -->
+                    <div class="form-outline mb-4" data-mdb-input-init>
+                        <input type="email" id="mail_address" name="mail_address" class="form-control" />
+                        <label class="form-label" for="mail">Email address</label>
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-4" data-mdb-input-init>
+                        <input type="password" id="password" name="password" class="form-control" />
+                        <label class="form-label" for="password">Password</label>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col d-flex justify-content-center">
+                            <!-- Simple link -->
+                            <a href="{% url 'signup' %}">Sign Up</a>
+                        </div>
+                        <div class="col text-center">
+                            <!-- Simple link -->
+                            <a href="#!">Forgot password?</a>
+                        </div>
+                    </div>
+
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-primary btn-block" data-mdb-ripple-init>Sign in</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="{% static 'js/mdb.umd.min.js' %}"></script>
+</body>
+
+</html>
