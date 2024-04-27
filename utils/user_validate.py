@@ -1,5 +1,6 @@
 import datetime
 import re
+from utils import common_utils
 
 from accounts.models import Users
 
@@ -35,7 +36,8 @@ class UserValidate:
         max_length = 100
 
         # TODO: 4バイト文字を含むかどうかの判定
-        if len(self.remove_4bytes_char(self.name)) != len(self.name):
+        common = common_utils.CommonUtils()
+        if len(common.remove_4bytes_char(self.name)) != len(self.name):
             response["message"] = "名前に絵文字などの4バイト文字は使用できません"
 
         if self.name == "":
@@ -82,20 +84,3 @@ class UserValidate:
             response["status"] = True
     
         return response
-    
-    
-    # 文字列から4バイト文字を消す
-    def remove_4bytes_char(text):
-        
-        # 文字列を bytearray に変換
-        byte_string = bytearray(text.encode('utf-8'))
-
-        # バイト列から4バイトのUTF-8文字を除去する
-        while b'\xf0' in byte_string:
-            index = byte_string.index(b'\xf0')
-            if index + 3 < len(byte_string):
-                for _i in range(4):
-                    byte_string.pop(index)
-
-        # bytearrayを文字列に変換
-        return byte_string.decode('utf-8')

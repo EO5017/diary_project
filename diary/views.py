@@ -1,9 +1,11 @@
+from django.contrib import messages
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import redirect
-from django.http import HttpResponse
 from django.views.generic import TemplateView
 from .models import Diary
 from utils import datetime_utils
+from utils.diary_contents_validate import DiaryContentsValidate
 
 # Create your views here.
 def index(request):
@@ -78,21 +80,48 @@ def delete(request, diary_id):
 
 
 def post(request):
+    title = request.POST.get("title")
+    content = request.POST.get("content")
+
+    validate_response = validate(title, content)
+    for message in validate_response:
+        messages.error(request, message)
+
     if not request.POST.get("diary_id"):
         # 新規登録
         diary = Diary()
+        if validate_response != []:
+            return redirect("create")
     else:
         # 更新
         diary_id = request.POST.get("diary_id")
         diary = Diary.objects.filter(id=diary_id).first()
+        if not diary:
+            return render(request, "error.html")
+        if validate_response != []:
+            return redirect("edit", diary_id=diary_id)
 
-    diary.title = request.POST.get("title")
-    diary.content = request.POST.get("content")
+    diary.title = title
+    diary.content = content
     diary.user_id = 1
     diary.save()
 
     # updateに遷移
     return render(request, "edit.html", {"diary": diary, "page_title": "Update Diary"})
+
+def validate(title, content):
+    messages = []
+    # バリデーション
+    validate = DiaryContentsValidate(title, content)
+    title_response = validate.title_is_valid()
+    content_response = validate.content_is_valid()
+
+    if not title_response["status"]:
+        messages.append(title_response["message"])
+    if not content_response["status"]:
+        messages.append(content_response["message"])
+    
+    return messages
 
 # class based viewの参考として残しておく
 class add(TemplateView):
