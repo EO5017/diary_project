@@ -1,0 +1,20 @@
+<div class="row justify-content-center">
+    <div class="col-12 text-center">
+        <!-- メッセージ表示 -->
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.tags == 'error' %}
+        <div data-mdb-alert-init="" class="alert alert-danger" role="alert" data-mdb-color="danger"
+            data-mdb-alert-initialized="true">
+            {{ message }}
+        </div>
+        {% elif message.tags == 'success' %}
+        <div data-mdb-alert-init="" class="alert alert-success" role="alert" data-mdb-color="success"
+            data-mdb-alert-initialized="true">
+            {{ message }}
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>

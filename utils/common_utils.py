@@ -4,7 +4,7 @@ class CommonUtils:
         pass
 
     # 文字列から4バイト文字を消す
-    def remove_4bytes_char(text):
+    def remove_4bytes_char(self, text):
         
         # 文字列を bytearray に変換
         byte_string = bytearray(text.encode('utf-8'))
