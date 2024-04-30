@@ -21,8 +21,19 @@
                 </div>
             </div>
             <!-- Jumbotron -->
+            
+            {% include 'block/messages.html' %}
+            
             <form method="post" action="{% url 'post' %}">
                 {% csrf_token %}
+                <div class="row my-3">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="write_date">日付</label>
+                            <input type="text" name="write_date" class="form-control" value="{{ write_date }}" readonly/>
+                        </div>
+                    </div>
+                </div>
                 <div class="row my-3">
                     <div class="col-md-12">
                         <div class="form-group">

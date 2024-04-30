@@ -1,8 +1,11 @@
 import datetime
 
 class DatetimeUtils:
-    def __init__(self, date):
-        self.date_data = date
+    def __init__(self, date=None):
+        if date is None:
+            self.date_data = self.get_now()
+        else:
+            self.date_data = date
 
     def convert_into_yyyy_mm_dd(self):
         return (self.date_data).strftime("%Y-%m-%d")
