@@ -97,10 +97,11 @@ def delete(request, diary_id):
 
 # 投稿・更新処理
 def post(request):
+    diary_id = request.POST.get("diary_id")
     title = request.POST.get("title")
     content = request.POST.get("content")
 
-    if not request.POST.get("diary_id"):
+    if not diary_id:
         write_date = request.POST.get("write_date")
 
         validate_response = validate(title, content, write_date)
@@ -115,7 +116,6 @@ def post(request):
 
     else:
         # 更新
-        diary_id = request.POST.get("diary_id")
         diary = Diary.objects.filter(id=diary_id).first()
         if not diary:
             return render(request, "error.html")
